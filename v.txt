@@ -1,0 +1,4 @@
+[FAIL] AegisEnv: Not ready for multi-mode deployment
+
+Issues found:
+  - server/app.py main() function not callable (missing if __name__ == '__main__')
