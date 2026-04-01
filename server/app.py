@@ -1,6 +1,6 @@
 from openenv.core.env_server.http_server import create_app
 from openenv.core.env_server.types import Observation
-from server.environment import AegisEnvironment
+from .environment import AegisEnvironment
 from pydantic import BaseModel
 from typing import Optional
 
