@@ -61,7 +61,7 @@ Here is exactly why this environment matters. Look at what happens when you let 
 
 Want to spin this up yourself? You just need `docker` and `openenv`.
 
-Verify the framework structure natively:
+Verify the framework structure nativel
 ```bash
 openenv validate
 ```

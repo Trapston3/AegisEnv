@@ -1,0 +1,14 @@
+Metadata-Version: 2.4
+Name: aegis-env
+Version: 0.1.0
+Summary: Cloud infrastructure SRE RL environment built on openenv-core
+License: MIT
+Requires-Python: >=3.10
+Requires-Dist: openenv-core>=0.2.0
+Requires-Dist: pydantic>=2.0
+Requires-Dist: openai>=1.0.0
+Requires-Dist: fastapi>=0.100.0
+Requires-Dist: uvicorn>=0.30.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: ruff>=0.4; extra == "dev"
