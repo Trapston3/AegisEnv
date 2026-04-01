@@ -10,7 +10,7 @@ API_KEY = os.getenv("HF_TOKEN") or os.getenv("API_KEY")
 MODEL_NAME = os.getenv("MODEL_NAME", "meta-llama/Meta-Llama-3-8B-Instruct")
 MAX_STEPS = 8
 TEMPERATURE = 0.2
-ENV_URL = "http://localhost:8000"
+ENV_URL = "https://trapst0ne-aegisenv.hf.space"
 
 SYSTEM_PROMPT = textwrap.dedent(
     """
