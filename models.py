@@ -203,25 +203,16 @@ class AegisObservation(BaseModel):
     class Config:
         use_enum_values = True
 
-
 # ──────────────────────────────────────────────────────────────────────
-#  Actions  (discriminated union via Literal type tag)
+#  Actions  (Robust defaults to prevent 422 errors)
 # ──────────────────────────────────────────────────────────────────────
 
 class ModifyResource(BaseModel):
     """Scale a server up/down by changing its compute tier."""
-
     action_type: Literal["modify_resource"] = "modify_resource"
-
-    target_server_id: str = Field(
-        ...,
-        pattern=r"^srv-\d{3}$",
-        description="ID of the server to modify.",
-    )
-    new_tier: ResourceTier = Field(
-        ...,
-        description="Desired compute tier after modification.",
-    )
+    target_server_id: str = Field(..., min_length=1)
+    # Added default to prevent 422
+    new_tier: ResourceTier = Field(default=ResourceTier.SMALL)
 
     class Config:
         use_enum_values = True
@@ -229,66 +220,32 @@ class ModifyResource(BaseModel):
 
 class DeleteResource(BaseModel):
     """Permanently terminate a server instance."""
-
     action_type: Literal["delete_resource"] = "delete_resource"
-
-    target_server_id: str = Field(
-        ...,
-        pattern=r"^srv-\d{3}$",
-        description="ID of the server to delete.",
-    )
-    confirm_deletion: bool = Field(
-        ...,
-        description="Safety latch — must be True to proceed.",
-    )
+    target_server_id: str = Field(..., min_length=1)
+    # Added default to prevent 422
+    confirm_deletion: bool = Field(default=False)
 
 
 class QueryLogs(BaseModel):
     """Retrieve recent log entries for a specific server."""
-
     action_type: Literal["query_logs"] = "query_logs"
-
-    target_server_id: str = Field(
-        ...,
-        pattern=r"^srv-\d{3}$",
-        description="ID of the server whose logs to query.",
-    )
-    severity_filter: LogSeverity = Field(
-        default=LogSeverity.INFO,
-        description="Minimum severity level to include.",
-    )
-    max_entries: int = Field(
-        default=50,
-        ge=1,
-        le=500,
-        description="Maximum number of log lines to return.",
-    )
+    target_server_id: str = Field(..., min_length=1)
+    severity_filter: LogSeverity = Field(default=LogSeverity.INFO)
+    max_entries: int = Field(default=50, ge=1, le=500)
 
     class Config:
         use_enum_values = True
 
 
 class RequestHumanConfirmation(BaseModel):
-    """
-    Pause and escalate to a human operator.
-
-    The agent provides a reasoning trace explaining *why* it believes
-    human judgement is needed (e.g. uncertainty flag is set, or a high-
-    risk destructive action is about to be taken).
-    """
-
+    """Pause and escalate to a human operator."""
     action_type: Literal["request_human_confirmation"] = "request_human_confirmation"
+    # Reduced min_length to 1 to be more forgiving to short LLM responses
+    reasoning_trace: str = Field(default="No reason provided", min_length=1)
 
-    reasoning_trace: str = Field(
-        ...,
-        min_length=10,
-        max_length=2000,
-        description=(
-            "Free-text chain-of-thought explaining why the agent is "
-            "escalating to a human.  Must be at least 10 characters."
-        ),
-    )
-
+class UnknownAction(BaseModel):
+    action_type: Literal["unknown"] = "unknown"
+    target_server_id: str = "srv-000"
 
 # ── Discriminated union of all actions ───────────────────────────────
 
@@ -298,6 +255,7 @@ AegisAction = Annotated[
         DeleteResource,
         QueryLogs,
         RequestHumanConfirmation,
+        UnknownAction,
     ],
     Field(discriminator="action_type"),
 ]

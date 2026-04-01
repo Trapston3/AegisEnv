@@ -108,6 +108,24 @@ class AegisEnvironment:
         self._human_confirmations: list[str] = []
         self._episode_count: int = 0
 
+    def close(self):
+        """Clean up resources as required by the OpenEnv server base class."""
+        pass
+
+    async def reset_async(self, **kwargs):
+        """
+        Asynchronous reset required by the framework. 
+        We simply wrap the synchronous reset logic.
+        """
+        return self.reset(**kwargs)
+
+    async def step_async(self, action, **kwargs):
+        """
+        Asynchronous step required by the framework.
+        We simply wrap the synchronous step logic.
+        """
+        return self.step(action, **kwargs)
+
     # ── reset() ──────────────────────────────────────────────────────
 
     def reset(
