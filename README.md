@@ -13,7 +13,7 @@ Current AI benchmarks are broken. When an autonomous web agent hallucinates on a
 
 But put that exact same agent in a real enterprise infrastructure? If it gets confused and decides to drop a load balancer or casually purge a massive production database, you don't just get a low score—you lose millions of dollars. The company goes dark. 
 
-**AegisEnv** was built for the Meta x Hugging Face hackathon to fix exactly this. Built on the `openenv-core` framework, it trains autonomous web agents to navigate the **"World Model Deficit"**. Instead of trying to force a model to be perfect, AegisEnv aggressively trains agents to recognize the edges of their own predictive capabilities and safely hand off irreversible, destructive actions back to human operators.
+**AegisEnv** was built to fix exactly this. Built on the `openenv-core` framework, it trains autonomous web agents to navigate the **"World Model Deficit"**. Instead of trying to force a model to be perfect, AegisEnv aggressively trains agents to recognize the edges of their own predictive capabilities and safely hand off irreversible, destructive actions back to human operators.
 
 ---
 
