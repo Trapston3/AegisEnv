@@ -1,0 +1,6 @@
+spec_version: "1"
+name: "aegis_env"
+type: "custom"
+runtime: "docker"
+app: "server.app"
+port: 7860
