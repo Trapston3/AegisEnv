@@ -53,8 +53,8 @@ class ServerRecord(BaseModel):
 
     server_id: str = Field(
         ...,
-        description="Unique identifier for the server (e.g. 'srv-001').",
-        pattern=r"^srv-\d{3}$",
+        description="Unique identifier for the server (e.g. 'srv-001' or dynamically generated 'srv-web-7b2').",
+        min_length=1,
     )
     hostname: str = Field(
         ...,
@@ -155,7 +155,7 @@ class AegisState(BaseModel):
 class ServerSnapshot(BaseModel):
     """Observable slice of a single server — may be stale or partial."""
 
-    server_id: str = Field(..., pattern=r"^srv-\d{3}$")
+    server_id: str = Field(..., min_length=1)
     hostname: str
     status: ServerStatus
     tier: ResourceTier
