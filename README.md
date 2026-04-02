@@ -1,11 +1,4 @@
----
-title: AegisEnv
-emoji: 🛡️
-colorFrom: blue
-colorTo: indigo
-sdk: docker
-app_port: 7860
-description: AegisEnv - A custom openenv Reinforcement Learning (RL) environment designed specifically to train Large Language Model (LLM) agents in risk assessment, cost-aware decision making, and tail-risk control. 
+
 ---
 
 # AegisEnv: Surviving the World Model Deficit
